@@ -1,13 +1,13 @@
 buildscript {
-	ext {
-		springBootVersion = '2.1.1.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+    ext {
+        springBootVersion = '2.1.1.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
 
 apply plugin: 'java'
@@ -20,20 +20,22 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 11
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 
 dependencies {
-	implementation('org.springframework.boot:spring-boot-starter-integration')
-	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
-	runtime "com.h2database:h2"
-	compile "org.apache.commons:commons-dbcp2:2.8.0"
-	compile "org.springframework.integration:spring-integration-http:5.1.0.RELEASE"
-	compile "org.springframework.integration:spring-integration-jdbc:5.1.0.RELEASE"
-	compile "org.springframework.integration:spring-integration-jpa:5.1.0.RELEASE"
-	compile 'org.springframework.integration:spring-integration-file:5.1.0.RELEASE'
-	compile 'org.springframework.integration:spring-integration-scripting:5.1.0.RELEASE'
+    implementation('org.springframework.boot:spring-boot-starter-integration')
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    runtime "com.h2database:h2"
+    compile "org.apache.commons:commons-dbcp2:2.8.0"
+    compile "org.springframework.integration:spring-integration-http:5.1.0.RELEASE"
+    compile "org.springframework.integration:spring-integration-jdbc:5.1.0.RELEASE"
+    compile "org.springframework.integration:spring-integration-jpa:5.1.0.RELEASE"
+    compile 'org.springframework.integration:spring-integration-file:5.1.0.RELEASE'
+    compile 'org.springframework.integration:spring-integration-scripting:5.1.0.RELEASE'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.7'
-	testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 }

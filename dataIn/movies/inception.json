@@ -1,0 +1,20 @@
+{
+  "title": "Inception",
+  "year": 2010,
+  "rating": 8.8,
+  "realisator": "Christopher Nolan",
+  "actors": [
+    "Leonardo DiCaprio",
+    "Joseph Gordon-Levitt",
+    "Ellen Page",
+    "Tom Hardy",
+    "Ken Watanabe",
+    "Cillian Murphy"
+  ],
+  "genres": [
+    "Action",
+    "Adventure",
+    "Sci-Fi",
+    "Thriller"
+  ]
+}

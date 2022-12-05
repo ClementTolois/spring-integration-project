@@ -9,8 +9,12 @@
            http://www.springframework.org/schema/integration/spring-integration-5.1.xsd
            http://www.springframework.org/schema/integration/file
            http://www.springframework.org/schema/integration/file/spring-integration-file-5.1.xsd">
-    <bean id="movieService" class="test.components.MovieFilter"/>
 
+    <!--
+     === Describe all beans ===
+     -->
+    <bean id="movieService" class="test.components.MovieFilter"/>
+    <bean id="service" class="test.components.MoviePublishService"/>
 
     <!--
      === Describe all channels ===
@@ -25,13 +29,18 @@
     <int:channel id="good-movies-object-channel"/>
     <int:channel id="bad-movies-object-channel"/>
     <int:channel id="bad-movies-json-channel"/>
+    <int:channel id="good-movies-json-channel"/>
+
+    <!--
+     === Describe all process ===
+    -->
 
     <!-- First input file : movies -->
     <int-file:inbound-channel-adapter
             channel="raw-movies-channel"
             directory="dataIn/movies"
             filename-pattern="*.json">
-        <int:poller id="poller" fixed-delay="1000"/>
+        <int:poller id="poller" fixed-delay="100"/>
     </int-file:inbound-channel-adapter>
 
     <!-- Filter raw movies to check movies well-formed -->
@@ -40,24 +49,48 @@
                 discard-channel="malformed-raw-movies-channel"
                 ref="movieService"/>
 
+    <!-- Put malformed movies in a json files -->
+    <int-file:outbound-channel-adapter
+            id="incorrectFilesOut"
+            channel="malformed-raw-movies-channel"
+            directory="dataOut/incorrect"/>
 
+    <!-- Transform raw movies to movies objects -->
     <int:json-to-object-transformer
             input-channel="filtered-raw-movies-channel"
             output-channel="movies-object-channel"
             type="test.models.Movie"/>
 
+    <!-- Split movies objects to good and bad movies objects -->
     <int:router method="routeMovieRating"
                 input-channel="movies-object-channel">
         <bean class="test.components.MovieRatingRouter"/>
     </int:router>
 
+    <!-- Transform bad movies objects to json -->
     <int:object-to-json-transformer
-            input-channel="good-movies-object-channel"
+            input-channel="bad-movies-object-channel"
             output-channel="bad-movies-json-channel"/>
 
-    <int:logging-channel-adapter channel="bad-movies-object-channel" log-full-message="true"/>
+    <!-- Write bad movies json to file -->
+    <int-file:outbound-channel-adapter
+            id="badMovieFilesOut"
+            channel="bad-movies-json-channel"
+            directory="dataOut/correct/bad"/>
 
-    <int-file:outbound-channel-adapter id="correctFilesOut" channel="bad-movies-json-channel" directory="dataOut/correct/good"/>
-    <int-file:outbound-channel-adapter id="incorrectFilesOut" channel="malformed-raw-movies-channel" directory="dataOut/incorrect"/>
+    <!-- Publish good movies objects -->
+    <int:service-activator
+            input-channel="good-movies-object-channel"
+            ref="service" method="handleMoviePublishing"/>
 
+    <!-- transform good movies objects to json -->
+    <int:object-to-json-transformer
+            input-channel="good-movies-object-channel"
+            output-channel="good-movies-json-channel"/>
+
+    <!-- Write good movies objects to file -->
+    <int-file:outbound-channel-adapter
+            id="goodMovieFilesOut"
+            channel="good-movies-json-channel"
+            directory="dataOut/correct/good"/>
 </beans>

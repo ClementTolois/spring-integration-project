@@ -1,4 +1,4 @@
-package test.services;
+package test.components;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.integration.core.MessageSelector;
@@ -7,11 +7,11 @@ import org.springframework.messaging.Message;
 import java.io.File;
 import java.util.HashMap;
 
-public class MovieService implements MessageSelector {
+public class MovieFilter implements MessageSelector {
 
     private final ObjectMapper objectMapper;
 
-    public MovieService() {
+    public MovieFilter() {
         objectMapper = new ObjectMapper();
     }
 

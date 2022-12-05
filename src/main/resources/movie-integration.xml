@@ -9,7 +9,7 @@
            http://www.springframework.org/schema/integration/spring-integration-5.1.xsd
            http://www.springframework.org/schema/integration/file
            http://www.springframework.org/schema/integration/file/spring-integration-file-5.1.xsd">
-    <bean id="movieService" class="test.services.MovieService"/>
+    <bean id="movieService" class="test.components.MovieFilter"/>
 
 
     <!--
@@ -22,6 +22,8 @@
     <int:channel id="malformed-raw-movies-channel"/>
     <int:channel id="movies-object-channel"/>
     <int:channel id="output-channel"/>
+    <int:channel id="good-movies-object-channel"/>
+    <int:channel id="bad-movies-object-channel"/>
 
     <!-- First input file : movies -->
     <int-file:inbound-channel-adapter
@@ -42,6 +44,12 @@
             input-channel="filtered-raw-movies-channel"
             output-channel="movies-object-channel"
             type="test.models.Movie"/>
+
+    <int:router method="routePaymentSettlement"
+                input-channel="movies-object-channel">
+    </int:router>
+
+
 
     <int:logging-channel-adapter channel="movies-object-channel" log-full-message="true"/>
 

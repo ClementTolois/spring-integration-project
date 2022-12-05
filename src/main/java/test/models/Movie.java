@@ -13,7 +13,7 @@ public class Movie {
     private String[] genres;
 
     public String toString() {
-        return title;
+        return "==> Movie =>> " + title;
     }
 
 }

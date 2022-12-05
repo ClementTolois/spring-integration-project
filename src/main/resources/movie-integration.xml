@@ -24,6 +24,7 @@
     <int:channel id="output-channel"/>
     <int:channel id="good-movies-object-channel"/>
     <int:channel id="bad-movies-object-channel"/>
+    <int:channel id="bad-movies-json-channel"/>
 
     <!-- First input file : movies -->
     <int-file:inbound-channel-adapter
@@ -45,15 +46,18 @@
             output-channel="movies-object-channel"
             type="test.models.Movie"/>
 
-    <int:router method="routePaymentSettlement"
+    <int:router method="routeMovieRating"
                 input-channel="movies-object-channel">
+        <bean class="test.components.MovieRatingRouter"/>
     </int:router>
 
+    <int:object-to-json-transformer
+            input-channel="good-movies-object-channel"
+            output-channel="bad-movies-json-channel"/>
 
+    <int:logging-channel-adapter channel="bad-movies-object-channel" log-full-message="true"/>
 
-    <int:logging-channel-adapter channel="movies-object-channel" log-full-message="true"/>
-
-    <int-file:outbound-channel-adapter id="correctFilesOut" channel="filtered-raw-movies-channel" directory="dataOut/correct"/>
+    <int-file:outbound-channel-adapter id="correctFilesOut" channel="bad-movies-json-channel" directory="dataOut/correct/good"/>
     <int-file:outbound-channel-adapter id="incorrectFilesOut" channel="malformed-raw-movies-channel" directory="dataOut/incorrect"/>
 
 </beans>

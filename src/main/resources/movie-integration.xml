@@ -28,27 +28,24 @@
             channel="raw-movies-channel"
             directory="dataIn/movies"
             filename-pattern="*.json">
-        <int:poller id="poller" fixed-delay="1000"/>
+        <int:poller id="poller" fixed-delay="10"/>
     </int-file:inbound-channel-adapter>
 
     <!-- Filter raw movies to check movies well-formed -->
-    <!--<int:service-activator input-channel="raw-movies-channel"
-                           output-channel="filtered-raw-movies-channel"
-                           ref="movieService"
-                           method="onlyWellFormed"/>-->
     <int:filter input-channel="raw-movies-channel"
                 output-channel="filtered-raw-movies-channel"
                 discard-channel="malformed-raw-movies-channel"
                 ref="movieService"/>
 
 
-    <int:json-to-object-transformer
+    <!--<int:json-to-object-transformer
             input-channel="filtered-raw-movies-channel"
             output-channel="movies-object-channel"
             type="test.models.Movie"/>
 
-    <int:logging-channel-adapter id="movies-object-channel" log-full-message="true"/>
+    <int:logging-channel-adapter channel="movies-object-channel" log-full-message="true"/>-->
 
-    <int-file:outbound-channel-adapter id="filesOut" channel="movies-object-channel" directory="dataOut"/>
+    <int-file:outbound-channel-adapter id="correctFilesOut" channel="filtered-raw-movies-channel" directory="dataOut/correct"/>
+    <int-file:outbound-channel-adapter id="incorrectFilesOut" channel="malformed-raw-movies-channel" directory="dataOut/incorrect"/>
 
 </beans>

@@ -3,7 +3,9 @@ package test.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.integration.core.MessageSelector;
 import org.springframework.messaging.Message;
-import test.models.Movie;
+
+import java.io.File;
+import java.util.HashMap;
 
 public class MovieService implements MessageSelector {
 
@@ -14,12 +16,21 @@ public class MovieService implements MessageSelector {
     }
 
     public boolean accept(Message<?> msg) {
-        /* check if msg is a valid json object */
+        File inputFile = (File) msg.getPayload();
+
+        // Try to parse the JSON file into a Map with keys and values we want to use
         try {
-            objectMapper.readValue(msg.getPayload().toString(), Movie.class);
+            HashMap<String, Object> movieJson = objectMapper.readValue(inputFile, HashMap.class);
+
+            // Check if the movie has a title and rating as keys (filtering conditions)
+            if (movieJson.get("title") == null || movieJson.get("rating") == null) {
+                return false;
+            }
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
+
         return true;
     }
 }

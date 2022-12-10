@@ -1,0 +1,18 @@
+{
+    "title": "The Shawshank Redemption",
+    "year": 1994,
+    "rating": 9.2,
+    "realisator": "Frank Darabont",
+    "actors": [
+        "Tim Robbins",
+        "Morgan Freeman",
+        "Bob Gunton",
+        "William Sadler",
+        "Clancy Brown",
+        "Gil Bellows"
+    ],
+    "genres": [
+        "Crime",
+        "Drama"
+    ]
+}

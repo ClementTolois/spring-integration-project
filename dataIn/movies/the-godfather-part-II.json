@@ -1,0 +1,18 @@
+{
+  "title": "The Godfather: Part II",
+  "year": 1974,
+  "rating": 9.0,
+  "realisator": "Francis Ford Coppola",
+  "actors": [
+    "Al Pacino",
+    "Robert Duvall",
+    "Diane Keaton",
+    "Robert De Niro",
+    "John Cazale",
+    "Talia Shire"
+  ],
+  "genres": [
+    "Crime",
+    "Drama"
+  ]
+}

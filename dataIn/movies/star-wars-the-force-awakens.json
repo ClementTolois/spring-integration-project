@@ -1,0 +1,20 @@
+{
+  "title": "Star Wars: The Force Awakens",
+  "year": 2015,
+  "rating": 8.0,
+  "realisator": "J.J. Abrams",
+  "actors": [
+    "Harrison Ford",
+    "Mark Hamill",
+    "Carrie Fisher",
+    "Adam Driver",
+    "Daisy Ridley",
+    "John Boyega"
+  ],
+  "genres": [
+    "Action",
+    "Adventure",
+    "Fantasy",
+    "Sci-Fi"
+  ]
+}
